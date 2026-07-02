@@ -1,0 +1,1 @@
+# uomg-hesablama
