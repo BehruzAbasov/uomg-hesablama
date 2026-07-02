@@ -1,5 +1,12 @@
 "use client";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Student } from "@/types/student";
 
 interface StudentSelectProps {
@@ -17,49 +24,28 @@ export default function StudentSelect({
 }: StudentSelectProps) {
   return (
     <div className="space-y-2">
-      <label
-        htmlFor="student"
-        className="block text-sm font-medium text-slate-700"
-      >
+      <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
         Tələbə
       </label>
 
-      <select
-        id="student"
-        value={value}
-        disabled={disabled}
-        onChange={(e) => onChange(e.target.value)}
-        className="
-          w-full
-          rounded-xl
-          border
-          border-slate-300
-          bg-white
-          px-4
-          py-3
-          text-slate-800
-          outline-none
-          transition
-          focus:border-blue-500
-          focus:ring-2
-          focus:ring-blue-200
-          disabled:cursor-not-allowed
-          disabled:bg-slate-100
-        "
-      >
-        <option value="">
-          Tələbə seçin
-        </option>
-
-        {students.map((student) => (
-          <option
-            key={student.id}
-            value={student.id}
-          >
-            {student.fullname}
-          </option>
-        ))}
-      </select>
+      <Select value={value} onValueChange={onChange} disabled={disabled}>
+        <SelectTrigger>
+          <SelectValue placeholder="Tələbə seçin" />
+        </SelectTrigger>
+        <SelectContent>
+          {students.length === 0 ? (
+            <div className="px-2 py-1.5 text-sm text-slate-500">
+              Tələbə yoxdur
+            </div>
+          ) : (
+            students.map((student) => (
+              <SelectItem key={student.id} value={student.id}>
+                {student.fullname}
+              </SelectItem>
+            ))
+          )}
+        </SelectContent>
+      </Select>
     </div>
   );
 }

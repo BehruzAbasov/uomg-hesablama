@@ -1,15 +1,19 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from "react";
+import { GraduationCap } from "lucide-react";
 
 import Card from "@/components/Card";
 import GroupSelect from "@/components/GroupSelect";
 import StudentSelect from "@/components/StudentSelect";
 import GPAInput from "@/components/GPAInput";
 import SubmitButton from "@/components/SubmitButton";
+import SuccessAlert from "@/components/SuccessAlert";
+import ErrorAlert from "@/components/ErrorAlert";
 
 import { supabase } from "@/lib/supabase";
-
 import { Student } from "@/types/student";
 
 export default function Home() {
@@ -43,10 +47,7 @@ export default function Home() {
         return;
       }
 
-      const uniqueGroups = [
-        ...new Set(data.map((item) => item.group_id)),
-      ];
-
+      const uniqueGroups = [...new Set(data.map((item) => item.group_id))];
       uniqueGroups.sort();
 
       setGroups(uniqueGroups);
@@ -155,68 +156,103 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-100 px-4 py-10">
-      <Card
-        title="ATU ÜOMG Sistemi"
-        subtitle="Qrupunuzu seçin, adınızı seçin və ÜOMG-ni daxil edin."
-      >
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <GroupSelect
-            groups={groups}
-            value={selectedGroup}
-            onChange={(value) => {
-              clearMessages();
-              setSelectedGroup(value);
-            }}
-            disabled={loading || loadingGroups}
-          />
-
-          <StudentSelect
-            students={students}
-            value={selectedStudent}
-            onChange={(value) => {
-              clearMessages();
-              setSelectedStudent(value);
-            }}
-            disabled={
-              loading || loadingStudents || !selectedGroup
-            }
-          />
-
-          <GPAInput
-            value={gpa}
-            onChange={(value) => {
-              clearMessages();
-              setGpa(value);
-            }}
-            disabled={loading}
-          />
-
-          {error && (
-            <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-              {error}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 transition-colors duration-300">
+      {/* Header Section */}
+      <div className="border-b border-slate-200 bg-white/40 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-950/40">
+        <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 p-2.5">
+              <GraduationCap className="h-6 w-6 text-white" />
             </div>
-          )}
-
-          {message && (
-            <div className="rounded-xl border border-green-200 bg-green-50 p-3 text-sm text-green-700">
-              {message}
+            <div>
+              <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+                ATU ÜOMG Sistemi
+              </h1>
+              <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                Tələbə akademik məlumatlarını təhlükəsiz şəkildə daxil edin
+              </p>
             </div>
-          )}
+          </div>
+        </div>
+      </div>
 
-          <SubmitButton
-            loading={loading}
-            disabled={
-              loading ||
-              loadingGroups ||
-              loadingStudents ||
-              !selectedGroup ||
-              !selectedStudent ||
-              !gpa
-            }
-          />
-        </form>
-      </Card>
-    </main>
+      {/* Main Content */}
+      <div className="flex min-h-[calc(100vh-120px)] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+        <div className="w-full max-w-lg">
+          <Card variant="default">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Group Selection */}
+              <div>
+                <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-300">
+                  Əsas Məlumatlar
+                </h2>
+                <div className="space-y-4">
+                  <GroupSelect
+                    groups={groups}
+                    value={selectedGroup}
+                    onChange={(value) => {
+                      clearMessages();
+                      setSelectedGroup(value);
+                    }}
+                    disabled={loading || loadingGroups}
+                  />
+
+                  <StudentSelect
+                    students={students}
+                    value={selectedStudent}
+                    onChange={(value) => {
+                      clearMessages();
+                      setSelectedStudent(value);
+                    }}
+                    disabled={loading || loadingStudents || !selectedGroup}
+                  />
+                </div>
+              </div>
+
+              {/* GPA Section */}
+              <div>
+                <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-300">
+                  ÜOMG Məlumatı
+                </h2>
+                <GPAInput
+                  value={gpa}
+                  onChange={(value) => {
+                    clearMessages();
+                    setGpa(value);
+                  }}
+                  disabled={loading}
+                />
+              </div>
+
+              {/* Messages */}
+              <div className="space-y-3">
+                {error && <ErrorAlert message={error} />}
+                {message && <SuccessAlert message={message} />}
+              </div>
+
+              {/* Submit Button */}
+              <SubmitButton
+                loading={loading}
+                disabled={
+                  loading ||
+                  loadingGroups ||
+                  loadingStudents ||
+                  !selectedGroup ||
+                  !selectedStudent ||
+                  !gpa
+                }
+              />
+            </form>
+          </Card>
+
+          {/* Footer Info */}
+          <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50/50 px-4 py-3 text-center dark:border-slate-800 dark:bg-slate-900/30">
+            <p className="text-xs text-slate-600 dark:text-slate-400">
+              Bütün məlumatlar əmin bir şəkildə Supabase verilənlər bazasında saxlanılır.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
