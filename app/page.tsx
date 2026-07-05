@@ -156,19 +156,19 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 dark:from-slate-950 dark:via-blue-950/20 dark:to-slate-950 transition-colors duration-300">
       {/* Header Section */}
-      <div className="border-b border-slate-200 bg-white/40 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-950/40">
-        <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 p-2.5">
+      <div className="border-b border-slate-200/50 bg-white/50 backdrop-blur-md dark:border-slate-800/50 dark:bg-slate-950/50">
+        <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4">
+            <div className="rounded-xl bg-gradient-to-br from-blue-600 via-blue-600 to-blue-700 p-3 shadow-lg">
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+            <div className="flex-1">
+              <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50">
                 ATU ÜOMG Sistemi
               </h1>
-              <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+              <p className="mt-1.5 text-sm text-slate-600 dark:text-slate-400">
                 Tələbə akademik məlumatlarını təhlükəsiz şəkildə daxil edin
               </p>
             </div>
@@ -177,16 +177,16 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <div className="flex min-h-[calc(100vh-120px)] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div className="flex min-h-[calc(100vh-140px)] items-center justify-center px-4 py-16 sm:px-6 lg:px-8">
         <div className="w-full max-w-lg">
           <Card variant="default">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-7">
               {/* Group Selection */}
-              <div>
-                <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-300">
+              <div className="space-y-3">
+                <h2 className="section-title">
                   Əsas Məlumatlar
                 </h2>
-                <div className="space-y-4">
+                <div className="space-y-4 pt-1">
                   <GroupSelect
                     groups={groups}
                     value={selectedGroup}
@@ -209,26 +209,33 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* Divider */}
+              <div className="border-t border-slate-200/50 dark:border-slate-800/50" />
+
               {/* GPA Section */}
-              <div>
-                <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-300">
+              <div className="space-y-3">
+                <h2 className="section-title">
                   ÜOMG Məlumatı
                 </h2>
-                <GPAInput
-                  value={gpa}
-                  onChange={(value) => {
-                    clearMessages();
-                    setGpa(value);
-                  }}
-                  disabled={loading}
-                />
+                <div className="pt-1">
+                  <GPAInput
+                    value={gpa}
+                    onChange={(value) => {
+                      clearMessages();
+                      setGpa(value);
+                    }}
+                    disabled={loading}
+                  />
+                </div>
               </div>
 
               {/* Messages */}
-              <div className="space-y-3">
-                {error && <ErrorAlert message={error} />}
-                {message && <SuccessAlert message={message} />}
-              </div>
+              {(error || message) && (
+                <div className="space-y-2 animate-slide-up">
+                  {error && <ErrorAlert message={error} />}
+                  {message && <SuccessAlert message={message} />}
+                </div>
+              )}
 
               {/* Submit Button */}
               <SubmitButton
@@ -246,8 +253,8 @@ export default function Home() {
           </Card>
 
           {/* Footer Info */}
-          <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50/50 px-4 py-3 text-center dark:border-slate-800 dark:bg-slate-900/30">
-            <p className="text-xs text-slate-600 dark:text-slate-400">
+          <div className="mt-8 animate-fade-in rounded-xl border border-slate-200/60 bg-white/50 px-5 py-4 backdrop-blur-sm dark:border-slate-800/60 dark:bg-slate-950/50">
+            <p className="text-center text-xs text-slate-600 dark:text-slate-400">
               Bütün məlumatlar əmin bir şəkildə Supabase verilənlər bazasında saxlanılır.
             </p>
           </div>

@@ -32,10 +32,10 @@ export default function GPAInput({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <label
         htmlFor="gpa"
-        className="text-sm font-medium text-slate-700 dark:text-slate-300"
+        className="block text-sm font-semibold text-slate-700 dark:text-slate-300"
       >
         {label}
       </label>
@@ -50,6 +50,7 @@ export default function GPAInput({
         value={value}
         placeholder={placeholder}
         onChange={(e) => handleChange(e.target.value)}
+        className="input-elegant"
       />
 
       <p className="text-xs text-slate-500 dark:text-slate-400">
