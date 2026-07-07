@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface SubmitButtonProps {
   loading?: boolean;
@@ -16,39 +17,13 @@ export default function SubmitButton({
   loadingText = "Göndərilir...",
 }: SubmitButtonProps) {
   return (
-    <button
+    <Button
       type="submit"
       disabled={disabled || loading}
-      className="
-        flex
-        w-full
-        items-center
-        justify-center
-        gap-2
-        rounded-xl
-        bg-blue-600
-        px-4
-        py-3
-        text-base
-        font-semibold
-        text-white
-        transition-all
-        duration-200
-        hover:bg-blue-700
-        active:scale-[0.98]
-        disabled:cursor-not-allowed
-        disabled:bg-slate-400
-        disabled:opacity-80
-      "
+      className="w-full gap-2"
     >
-      {loading && (
-        <Loader2
-          size={18}
-          className="animate-spin"
-        />
-      )}
-
+      {loading && <Loader2 className="animate-spin" />}
       {loading ? loadingText : text}
-    </button>
+    </Button>
   );
 }

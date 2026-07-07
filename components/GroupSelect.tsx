@@ -1,5 +1,13 @@
 "use client";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 interface GroupSelectProps {
   groups: string[];
   value: string;
@@ -15,49 +23,28 @@ export default function GroupSelect({
 }: GroupSelectProps) {
   return (
     <div className="space-y-2">
-      <label
-        htmlFor="group"
-        className="block text-sm font-medium text-slate-700"
-      >
+      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
         Qrup
       </label>
 
-      <select
-        id="group"
-        value={value}
-        disabled={disabled}
-        onChange={(e) => onChange(e.target.value)}
-        className="
-          w-full
-          rounded-xl
-          border
-          border-slate-300
-          bg-white
-          px-4
-          py-3
-          text-slate-800
-          outline-none
-          transition
-          focus:border-blue-500
-          focus:ring-2
-          focus:ring-blue-200
-          disabled:cursor-not-allowed
-          disabled:bg-slate-100
-        "
-      >
-        <option value="">
-          Qrup seçin
-        </option>
-
-        {groups.map((group) => (
-          <option
-            key={group}
-            value={group}
-          >
-            {group}
-          </option>
-        ))}
-      </select>
+      <Select value={value} onValueChange={onChange} disabled={disabled}>
+        <SelectTrigger>
+          <SelectValue placeholder="Qrup seçin" />
+        </SelectTrigger>
+        <SelectContent>
+          {groups.length === 0 ? (
+            <div className="px-2 py-1.5 text-sm text-slate-500">
+              Qrup yoxdur
+            </div>
+          ) : (
+            groups.map((group) => (
+              <SelectItem key={group} value={group}>
+                {group}
+              </SelectItem>
+            ))
+          )}
+        </SelectContent>
+      </Select>
     </div>
   );
 }
